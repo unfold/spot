@@ -1,0 +1,99 @@
+<!doctype html>
+<title>Example – Image loader</title>
+<meta charset=UTF-8>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../spot.js"></script>
+<style>
+
+  body{
+    font-family: Helvetica Neue;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
+
+  .header{
+    text-align: center;
+    padding: 250px 0;
+  }
+
+  .header h1{
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 24px;
+  }
+
+  .grid{
+    margin: 0 auto;
+    overflow: auto;
+  }
+
+  .image{
+    width: 100%;
+    background-size: contain;
+    background-position: center;
+    opacity: 0;
+  }
+
+  .image::after{
+    content: '';
+    display: block;
+    padding-bottom: 66.4%;
+  }
+
+  .image[data-has-image=true]{
+    opacity: 1;
+    transition: opacity .4s;
+  }
+
+  .grid.by-2 .image{
+    float: left;
+    width: 50%;
+  }
+
+</style>
+
+<header class="header">
+  <h1>Images for around the world</h1>
+</header>
+
+<section class="block">
+    <div class="image" data-image-src="https://unsplash.imgix.net/uploads/14115409319165441c030/a1d0230a?q=75&w=1000&fm=jpg&s=d166fb39d8710865e42b6c6884cd0793"></div>
+</section>
+<section class="block">
+    <div class="image" data-image-src="https://unsplash.imgix.net/uploads/14117450256890cec7683/4575979c?q=75&w=1000&fm=jpg&s=fd32050fe5cc8c228b6cd14c0e7e00f1"></div>
+</section>
+<section class="block">
+  <div class="grid by-2">
+    <div class="image" data-image-src="https://unsplash.imgix.net/reserve/xpdPwXTASnOUXFpIPgDs_IMG_1460_edt.jpg?q=75&w=1000&fm=jpg&s=14f08c0d844035df3c9fea8705d4c38c"></div>
+    <div class="image" data-image-src="https://unsplash.imgix.net/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?q=75&w=1000&fm=jpg&s=2857080adb1de5db2cbddb6d230954bc"></div>
+    <div class="image" data-image-src="https://unsplash.imgix.net/uploads/14115408840644deb16b0/2dc933e3?q=75&w=1000&fm=jpg&s=af1a83cde7453c9bd57df29b167b5f6e"></div>
+    <div class="image" data-image-src="https://unsplash.imgix.net/uploads/1411419068566071cef10/7562527b?q=75&w=1000&fm=jpg&s=db09eb7e925e320ab2305438d97ca9f8"></div>
+    <div class="image" data-image-src="https://unsplash.imgix.net/reserve/6TjIJK0uSJWtQUZuQWMW_58400023.jpg?q=75&w=1000&fm=jpg&s=8f2ff00c4d67affeb47ed5eaa409283e"></div>
+    <div class="image" data-image-src="https://unsplash.imgix.net/reserve/unsplash_52d8277ccad75_1.JPG?q=75&w=1000&fm=jpg&s=348a6a411e5759158e2659dbfc96ecac"></div>
+  </div>
+</section>
+<section class="block">
+  <div class="image" data-image-src="https://unsplash.imgix.net/reserve/sW4FHZKlQ4qQLNTy3yS0__IMG0278.JPG?q=75&w=1000&fm=jpg&s=8be5a3269228a02c4db4f87dabe02655"></div>
+</section>
+<section class="block">
+  <div class="image" data-image-src="https://unsplash.imgix.net/46/M1IHnsfYRz2ThTgzl6qz_canyousea.jpg?q=75&w=1000&fm=jpg&s=9b39649f05e51bfebf391f6af95a8680"></div>
+</section>
+
+<script>
+
+  $('[data-image-src]').enterscreen(function(event){
+    console.log(event)
+    var image = new Image()
+    var src = event.element.getAttribute('data-image-src')
+    image.src = src
+    image.onload = function(){
+      event.element.setAttribute('data-has-image', true)
+      event.element.style.backgroundImage = 'url('+ src +')'
+    }
+  }, {
+    proximity: 400,
+    triggerOnce: true
+  })
+
+</script>

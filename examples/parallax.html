@@ -1,0 +1,109 @@
+<!doctype html>
+<title>Example – Parallax</title>
+<meta charset=UTF-8>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../spot.js"></script>
+<style>
+
+  html,body{
+    height: 100%;
+  }
+
+  body{
+    font-family: Helvetica Neue;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    min-height: 100%;
+  }
+
+  section{
+    position: relative;
+    display: table;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .header{
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    text-align: center;
+  }
+
+  .header h1{
+    color: white;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 24px;
+  }
+
+  .background{
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+</style>
+
+<section class="fixed">
+  <div class="background" style="background-image: url(https://unsplash.imgix.net/uploads/14117450256890cec7683/4575979c?q=75&w=1000&fm=jpg&s=fd32050fe5cc8c228b6cd14c0e7e00f1)"></div>
+  <header class="header">
+    <h1>Fixed background</h1>
+  </header>
+</section>
+
+<section class="scroll">
+  <div class="background" style="background-image: url(https://unsplash.imgix.net/uploads/14115408840644deb16b0/2dc933e3?q=75&w=1000&fm=jpg&s=af1a83cde7453c9bd57df29b167b5f6e)"></div>
+  <header class="header">
+    <h1>Scrolling background</h1>
+  </header>
+</section>
+
+<section class="scale">
+  <div class="background" style="background-image: url(https://unsplash.imgix.net/reserve/unsplash_52d8277ccad75_1.JPG?q=75&w=1000&fm=jpg&s=348a6a411e5759158e2659dbfc96ecac)"></div>
+  <header class="header">
+    <h1>Scaling background</h1>
+  </header>
+</section>
+
+
+<script>
+
+  var translate = function(x, y){
+    return 'translate3d(' + x + 'px,'+  (y || 0) + 'px, 0)'
+  }
+  var scale = function(scale){
+    return 'scale('+ scale +')'
+  }
+
+
+  // Fixed
+  var fixedBackground = document.querySelector('.fixed .background')
+  $('.fixed').onscreen(function(event){
+    fixedBackground.style.transform = translate(0, event.screenTop)
+  })
+
+  // Scroll
+  var scrollingBackground = document.querySelector('.scroll .background')
+  var scrollAmount = 100
+  scrollingBackground.style.bottom = -scrollAmount + 'px'
+
+  $('.scroll').onscreen(function(event){
+    var offset = (event.screenTop / event.elementHeight) * scrollAmount
+    scrollingBackground.style.transform = translate(0, offset)
+  })
+
+  // Scale
+  var scalingBackground = document.querySelector('.scale .background')
+  var scaleAmount = 0.2
+
+  $('.scale').onscreen(function(event){
+    var tween = (event.screenTop + window.innerHeight) / (event.elementHeight + window.innerHeight)
+    var scaleOffset = 1 + (scaleAmount * tween)
+    scalingBackground.style.transform = scale(scaleOffset)
+  })
+</script>
